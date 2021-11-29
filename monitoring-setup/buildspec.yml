@@ -5,6 +5,8 @@ env:
     TERRAFORM_VERSION: "1.0.6"
   secrets-manager:
     GITHUB_PERSONAL_TOKEN: "MAC_REQUIRED_CREDENTIALS:AMWAYACS_GITHUB_PERSONAL_TOKEN"
+    CF_USER: "MAC_REQUIRED_CREDENTIALS:CF_USER"
+    CF_PASSD: "MAC_REQUIRED_CREDENTIALS:CF_PASSD"
 
 phases:
   install:
@@ -19,6 +21,7 @@ phases:
   pre_build:
     on-failure: ABORT     
     commands:
+      - chmod +x $CODEBUILD_SRC_DIR/SRE-MAC-CLIENT-CODE/scripts/read_tf_output.py
       - chmod +x $CODEBUILD_SRC_DIR/SRE-MAC-CLIENT-CODE/scripts/prebuild.sh && $CODEBUILD_SRC_DIR/SRE-MAC-CLIENT-CODE/scripts/prebuild.sh          
   build:
     on-failure: ABORT   
@@ -36,4 +39,5 @@ phases:
   post_build:
     on-failure: CONTINUE   
     commands:
+      - chmod +x $CODEBUILD_SRC_DIR/SRE-MAC-CLIENT-CODE/scripts/run_py.sh && $CODEBUILD_SRC_DIR/SRE-MAC-CLIENT-CODE/scripts/run_py.sh  
       - echo $CODEBUILD_BUILD_ID terraform execution completed on `date`      

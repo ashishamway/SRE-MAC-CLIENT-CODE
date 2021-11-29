@@ -11,10 +11,6 @@ function set_cmd() {
             then  TF_COMMAND="apply"
         elif [ "$lcase" = "destroy" ]
             then TF_COMMAND="destroy"
-        elif [ "$lcase" = "state list" ]
-            then TF_COMMAND="state list"
-        elif [ "$lcase" =~ .*"state rm".* ]
-            then TF_COMMAND="state rm ""${u:8}"
         else 
             TF_COMMAND="apply"
         fi
