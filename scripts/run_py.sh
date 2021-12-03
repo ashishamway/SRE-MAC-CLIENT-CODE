@@ -2,7 +2,7 @@
 
 json_file=$CODEBUILD_SRC_DIR/tf_output.json
 cd  $CODEBUILD_SRC_DIR/main/app
-terraform output -json | jq '.dynatrace_outputs.value' > $json_file
+terraform output -json > $json_file
 
 # if [[ -s $json_file ]] && grep -q "null" $json_file ; then
 #     echo "File Contain NULL!!!" 

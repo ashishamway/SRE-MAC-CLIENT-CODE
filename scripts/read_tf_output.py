@@ -20,7 +20,11 @@ def main():
                     print("file contain null!")
                     sys.exit(0)
                 else:
-                    output_html = json2html.convert(json = json_contain)
+                    dict = json.loads(json_contain)['outputs']
+                    key_list = [ k for k, v in dict.items() ]
+                    for key in key_list:
+                        dict[key].pop('type')
+                    output_html = json2html.convert(json = dict)
                     conf.create_update_page(os.environ['CF_PAGE_NAME'], output_html)
                     print("Execution completed.")
     except Exception as e:
