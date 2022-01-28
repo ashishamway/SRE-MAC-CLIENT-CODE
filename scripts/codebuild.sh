@@ -9,7 +9,7 @@ function set_cmd() {
         lcase=`echo $TF_COMMAND | tr A-Z a-z`
         if [ "$lcase" = "apply" ]
             then  TF_COMMAND="apply"
-        elif [ "$lcase" = "destroy" ]
+        elif [ "$lcase" = "destroy" ] then
             if [ -z "$REMOVE_MODULES" ]
                 then TF_COMMAND="destroy"
             else
