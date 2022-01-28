@@ -22,22 +22,16 @@ phases:
     on-failure: ABORT     
     commands:
       - chmod +x $CODEBUILD_SRC_DIR/SRE-MAC-CLIENT-CODE/scripts/read_tf_output.py
-      - chmod +x $CODEBUILD_SRC_DIR/SRE-MAC-CLIENT-CODE/scripts/prebuild.sh && $CODEBUILD_SRC_DIR/SRE-MAC-CLIENT-CODE/scripts/prebuild.sh          
+      - chmod +x $CODEBUILD_SRC_DIR/SRE-MAC-CLIENT-CODE/scripts/codebuild.sh 
+      - $CODEBUILD_SRC_DIR/SRE-MAC-CLIENT-CODE/scripts/codebuild.sh prebuild    
   build:
     on-failure: ABORT   
     commands:
-      - TF_COMMAND=`cat temp.txt`
-      - cd "$CODEBUILD_SRC_DIR/main/app"
-      - ls -lrt "$CODEBUILD_SRC_DIR/main/app"
-      - terraform --version
-      - echo "check state.conf file present!!" && ls -lta $CODEBUILD_SRC_DIR/code-build/
-      - terraform init -input=false --upgrade --backend-config=$CODEBUILD_SRC_DIR/state.conf
-      - terraform validate
-      - terraform plan -lock=false -input=false       
-      - terraform $TF_COMMAND -input=false -auto-approve
+      - $CODEBUILD_SRC_DIR/SRE-MAC-CLIENT-CODE/scripts/codebuild.sh build
       
   post_build:
     on-failure: CONTINUE   
     commands:
-      - chmod +x $CODEBUILD_SRC_DIR/SRE-MAC-CLIENT-CODE/scripts/run_py.sh && $CODEBUILD_SRC_DIR/SRE-MAC-CLIENT-CODE/scripts/run_py.sh  
+      - chmod +x $CODEBUILD_SRC_DIR/SRE-MAC-CLIENT-CODE/scripts/run_py.sh 
+      - $CODEBUILD_SRC_DIR/SRE-MAC-CLIENT-CODE/scripts/run_py.sh  
       - echo $CODEBUILD_BUILD_ID terraform execution completed on `date`      
